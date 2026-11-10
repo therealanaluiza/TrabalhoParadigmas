@@ -1,3 +1,4 @@
+import desenho.*;
 import java.util.*;
 import personagem.Virus;
 import personagem.player.*;
@@ -15,54 +16,75 @@ public class Jogo {
 
         // inicio do jogo
         // printar BEM VINDO E COMANDOS BÁSICOS
+         
+        Desenho titulo, texto, mapa;
 
-        // se clicar enter, começa o jogo
+        titulo = new DesenhoTitulo(); 
+        texto = new DesenhoTexto();
+        mapa = new DesenhoMapa();
 
-        // começar o jogo
-
+        // inicializa players no jogo
         Player player1, player2;
         player1 = new Player1();
         player2 = new Player2();
 
-        // inicializa players no jogo
-
         player1.inicializaPersonagem("Player 1", new int[2]);
         player2.inicializaPersonagem("Player 2", new int[2]);
+    
+        // imprime o inicio
+        titulo.desenhar(0);
+        texto.desenhar(2);
 
-        boolean jogo_continua = true;
-        // desenhar mapa
+        // parametros que indicam se o jogo comeca/continua ou nao
+        boolean jogo_continua = false;
+        int turno = 1;
+        
+        // vamos ver se comeca mesmo
+        Scanner entrada = new Scanner(System.in);
+        char comando = entrada.next().charAt(0);
 
-        while (jogo_continua == true) {
+        // começar o jogo
+        if (comando == 'c') {
+            jogo_continua = true;
+            turno = 1;
+        }
 
         // parametrizando para teste
         int[] pos = new int[2];
         pos[0] = 1;
         pos[1] = 2;
-
         Virus virus1;
         virus1 = new Virus();
-
         virus1.inicializaPersonagem("Vírus 1", pos);
 
-        Scanner entrada = new Scanner(System.in);
-    
-        while (jogo_continua = true) {
+
+        while (jogo_continua == true) {
             System.out.print("Digite o movimento: ");
-            char comando = entrada.next().charAt(0);
+            comando = entrada.next().charAt(0);
 
             if (comando == '0') {
                 jogo_continua = false;
                 break;
             }
 
-            player1.definePosicao(comando, player1.getPosicao());
-            player2.definePosicao(comando, player2.getPosicao());
+            if (turno == 1) {
+                player1.definePosicao(comando, player1.getPosicao());
+            } else if (turno == 2) {
+                player2.definePosicao(comando, player2.getPosicao());
+            }
 
-            System.out.println(Arrays.toString(player1.getPosicao()));
-        }
+            //System.out.println(Arrays.toString(player1.getPosicao()));
+            //System.out.println(Arrays.toString(player2.getPosicao()));
+
+            titulo.desenhar(0);
+            mapa.desenhaMapa(player1, player2);
+
+            if (turno == 1) {
+                turno ++;
+            } else {
+                turno = 1;
+            }
       }
-      String loucura = ("deu boa");
-      System.out.println(loucura);
-      return;
+      texto.desenhar(3);
     }
 }
