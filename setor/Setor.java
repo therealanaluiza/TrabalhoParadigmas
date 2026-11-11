@@ -1,3 +1,4 @@
+package setor;
 import personagem.Personagem;
 import personagem.Virus;
 import java.util.Random;

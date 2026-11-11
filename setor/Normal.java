@@ -1,4 +1,5 @@
-import java.Util.Random;
+package setor;
+import java.util.Random;
 
 public class Normal extends Setor {
 
@@ -8,17 +9,16 @@ public class Normal extends Setor {
 
     private Random aleatorio = new Random();
 
-    // faz o sorteio de 1 à 6 normalmente.
     @Override
-    public void fazProcura (){
+    // faz o sorteio de 1 à 6 normalmente.
+    public int fazProcura (){
         if (procurado)
             return -1;
         procurado =  true;
         
-        Random aleatorio = new Random ();
         int num;
         num = aleatorio.nextInt(6) + 1;
-
+        return num;
     }
     
 }

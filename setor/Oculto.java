@@ -1,3 +1,4 @@
+package setor;
 import java.util.Random;
 
 public class Oculto extends Setor {

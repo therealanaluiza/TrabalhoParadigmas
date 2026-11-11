@@ -36,7 +36,7 @@ public abstract class Player implements Personagem {
 
     // define proxima posicao de acordo com o comando digitado no teclado
     // recebe entrada do usuario e a posicao atual do player
-    public int[] definePosicao (char comando, int[] posicao_atual) {
+    public int definePosicao (char comando, int[] posicao_atual) {
         int y = posicao_atual[0];
         int x = posicao_atual[1];
 
@@ -62,15 +62,15 @@ public abstract class Player implements Personagem {
         // retorna a posicao atual caso nao seja valido
         if (novo_x > 5 || novo_y > 5) {
             System.out.println("passou de 5");
-            return posicao_atual;
+            return 0;
         } else if (novo_x < 1 || novo_y < 1) {
             System.out.println("muito perto");
-            return posicao_atual;
+            return 0;
         }
         
         posicao[0] = novo_y;
         posicao[1] = novo_x;
 
-        return posicao;
+        return 1;
     }
 }

@@ -3,7 +3,6 @@ import java.util.*;
 import personagem.Virus;
 import personagem.player.*;
 
-
 // aqui está atualizando o player 1 e 2 quando se mexe
 // a mudança disso tem que vir de turno que vai mudando o pessoal que aparece
 // a mudança que vai de acordo com as portas deve vir de setor+turno
@@ -57,8 +56,9 @@ public class Jogo {
         virus1 = new Virus();
         virus1.inicializaPersonagem("Vírus 1", pos);
 
+        int numTurnos = 1;
 
-        while (jogo_continua == true) {
+        while (jogo_continua == true && numTurnos < 26) {
             System.out.print("Digite o movimento: ");
             comando = entrada.next().charAt(0);
 
@@ -84,6 +84,7 @@ public class Jogo {
             } else {
                 turno = 1;
             }
+            numTurnos ++;
       }
       texto.desenhar(3);
     }

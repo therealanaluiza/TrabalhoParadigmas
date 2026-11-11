@@ -27,6 +27,8 @@ public class DesenhoTexto implements Desenho {
             System.out.println("          O jogo acabou!       ");
             System.out.println("       Me dá 100 por favor!       ");
             System.out.println();
+        } else if (situacao == 4) {
+            System.out.println("       Comando inválido       ");
         }
 
     }

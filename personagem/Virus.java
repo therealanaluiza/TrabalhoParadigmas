@@ -47,8 +47,5 @@ public class Virus implements Personagem {
         // exemplo: [2,2] porque foi o pedido pelo enunciado
         atk = num;
         def = num;
-
-        // retorna o inimigo
-        return;
     }
 }

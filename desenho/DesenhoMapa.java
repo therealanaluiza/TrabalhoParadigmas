@@ -79,3 +79,10 @@ public class DesenhoMapa implements Desenho {
     @Override 
     public void desenhar (int situacao) {}
 }
+
+int[2,2]
+int[3,2]
+
+
+int[][]
+
