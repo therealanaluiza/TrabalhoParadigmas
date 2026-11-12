@@ -1,4 +1,5 @@
 package setor;
+
 import personagem.Personagem;
 import personagem.Virus;
 import java.util.Random;
@@ -68,6 +69,22 @@ public abstract class Setor {
             inimigos[i] = v; // guarda o vírus na posição i do vetor de inimigos
         }
     }
+
+    // retorna true se tem porta nos lados
+    public boolean temPorta(int lado) {
+        return lados[lado] == 1;
+    }
+
+    //verifica se ainda tem um virus vivo no setor ou não
+    public boolean temVirusVivo() {
+        for (int i = 0; i < numInimigos; i++) {
+            if (inimigos[i].getVivo()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // Metodos Get/Set
     public int[] getPosicao (){
