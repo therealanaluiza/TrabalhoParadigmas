@@ -68,9 +68,9 @@ public class Jogo {
             }
 
             if (turno == 1) {
-                player1.definePosicao(comando, player1.getPosicao());
+                player1.definePosicao(comando, player1.getPosicao(), setor_atual);
             } else if (turno == 2) {
-                player2.definePosicao(comando, player2.getPosicao());
+                player2.definePosicao(comando, player2.getPosicao(), setor_atual);
             }
 
             //System.out.println(Arrays.toString(player1.getPosicao()));

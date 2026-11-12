@@ -28,6 +28,10 @@ public class Virus implements Personagem {
     public boolean getVivo() {
         return this.vivo;
     }
+    @Override
+    public void setDEF(int def) {
+        this.def = def;
+    }
 
     // --------------------- metodos ---------------------
 

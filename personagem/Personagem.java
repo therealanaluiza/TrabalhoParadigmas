@@ -3,6 +3,7 @@ package personagem;
 public interface Personagem {
     public int getATK();
     public int getDEF();
+    public void setDEF(int def);
     public int[] getPosicao();
     public boolean getVivo();
 
