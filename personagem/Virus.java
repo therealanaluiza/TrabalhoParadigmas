@@ -30,7 +30,13 @@ public class Virus implements Personagem {
     }
     @Override
     public void setDEF(int def) {
-        this.def = def;
+        if(def < 1){
+            this.def = 0;
+            this.vivo = false;
+        }
+        else{
+            this.def = def;
+        }
     }
 
     // --------------------- metodos ---------------------
