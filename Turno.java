@@ -9,17 +9,6 @@ import personagem.*;
 
 public class Turno {
 
-
-    /*lógica:
-    ve se p1 ta vivo, se não, acaba
-    ação p1
-    ação p1
-    se p2 ta vivo{
-    ação p2
-    ação p2
-    }
-    */
-   
     //atualizar saida inteira toda ação de player?
     //fazer que retorno de decideAcao dependa da acao escolhida, e dai so atualizar 1 parte da saida?
     //1 é movimento : atualiza mapa e sala com os virus aparecendo
@@ -32,35 +21,14 @@ public class Turno {
         if (!p1.getVivo())
             return 1;
 
-        /*
         while (acao_feita < 2)
             acao_feita = acao_feita + decideAcao(p1, m);
-        */
-
-        //acao 1 p1
-        while(acao_feita == 0){
-            acao_feita = decideAcao(p1, m);
-        }
-
-        acao_feita = 0;
-        //acao 2 p1
-        while(acao_feita == 0){
-            acao_feita = decideAcao(p1, m);
-        }
 
         acao_feita = 0;
         if (p2.getVivo()){
 
-            //acao 1 p2
-            while(acao_feita == 0){
-                acao_feita = decideAcao(p2, m);
-            }
-
-            acao_feita = 0;
-            //acao 2 p2
-            while(acao_feita == 0){
-                acao_feita = decideAcao(p2, m);
-            }
+            while (acao_feita < 2)
+                acao_feita = acao_feita + decideAcao(p2, m);
 
         acao_feita = 0;
         }
@@ -73,19 +41,57 @@ public class Turno {
 
         if (mesmaPosicao){
             Setor s = m.getSetordoMapa(posP1[0], posP1[1]);
+            int numInimigos = s.getNumInimigos();
 
-            for(int i = 0; i < s.getNumInimigos(); i++)
+            for(int i = 0; i < numInimigos; i++)
                 listaInimigos.add((Virus) s.getInimigos()[i]);
 
+            int playerAtacado;
+            for (Virus v : listaInimigos){
+                playerAtacado = decidePlayer();
+                if (!p2.getVivo()){
+                    realizaAtaque(v, p1, m);
+                }
+                else{
+                    if (playerAtacado == 1)
+                        realizaAtaque(v, p1, m);
+                    else
+                        realizaAtaque(v, p2, m);
+                }
+            }
+
+            if(!p1.getVivo())
+                return 1;
+            listaInimigos.clear();
         }
+        else{
+            Setor sPlayer1 = m.getSetordoMapa(posP1[0], posP1[1]);
+            Setor sPlayer2 = m.getSetordoMapa(posP2[0], posP2[1]);
+            int numInimigosPlayer1 = sPlayer1.getNumInimigos();
+            int numInimigosPlayer2 = sPlayer2.getNumInimigos();
+
+            for(int i = 0; i < numInimigosPlayer1; i++)
+                listaInimigos.add((Virus) sPlayer1.getInimigos()[i]);
+
+            for (Virus v : listaInimigos)
+                realizaAtaque(v, p1, m);
+
+            listaInimigos.clear();
+
+            if(p2.getVivo()){
+
+                for(int i = 0; i < numInimigosPlayer2; i++)
+                    listaInimigos.add((Virus) sPlayer2.getInimigos()[i]);
         
-        //se p1 junto com p2
-        //pega inimigos
-        //se separados
-        //pega inimigos 1 e inmigos 2
-        //turnos inimigos
-        //se juntos toda moeda e pega aleatório
-        //se separados ataca oq ta la
+                for (Virus v : listaInimigos)
+                    realizaAtaque(v, p2, m);
+
+                listaInimigos.clear();
+            }
+
+            if(!p1.getVivo())
+                return 1;
+        }
         return 0;
     }
     
@@ -96,6 +102,10 @@ public class Turno {
         int decidiu;
 
         //imprime ações possiveis: 1.movimento, 2.ataque, 3.procura
+        System.out.println("Acoes possiveis: ");
+        System.out.println("1.Movimento");
+        System.out.println("2.Ataque");
+        System.out.println("3.Procura");
         char c = comando.next().charAt(0);
         if(c == '1'){
             decidiu = preparaMovimento(p, m);
@@ -107,7 +117,7 @@ public class Turno {
             decidiu = preparaProcura(p, m);
         }
         else{
-            //print comando invalido
+            System.out.println("Comando invalido!");
             decidiu = 0;
         }
         return decidiu;
@@ -120,6 +130,12 @@ public class Turno {
     //movimento invalido: mostra que é invalido retorna 0
     public int preparaMovimento(Player p, Mapa m){
         //imprime opcoes movimento (w.cima, d.direita, s.baixo, a.esquerda, c.cancelar)
+        System.out.println("Opcoes movimento: ");
+        System.out.println("w.cima");
+        System.out.println("d.direita");
+        System.out.println("s.baixo");
+        System.out.println("a.esquerda");
+        System.out.println("c.cancelar");
         Scanner comando = new Scanner(System.in);
         char direcao = comando.next().charAt(0);
         int conseguiu_mover = 0;
@@ -128,11 +144,11 @@ public class Turno {
         if (direcao == 'w' || direcao == 'd' ||direcao == 's' || direcao == 'a')
             conseguiu_mover = realizaMovimento(p, direcao, m);
         else if (direcao == 'c'){
-            //imprime cancelando
+            System.out.println("Cancelando...");
             return 0;
         }
         else{
-            //imprime movimento invalido
+            System.out.println("Movimento invalido!");
             return 0;
         }
         return conseguiu_mover;
@@ -156,22 +172,21 @@ public class Turno {
         //imprime os vivos como opção de ataque
         for(i = 0; i < quantidade_inimigos; i++){
             if(inimigos[i].getVivo())
-                //imprime: (i + 1). atacar inimigo i + 1
-                i++; //so pra nao ficar dando erro
+                System.out.println((i + 1) + ".atacar inimigo " + (i + 1));
         }
 
         //imprime: 0.cancelar
-        //0 cancela
+        System.out.println("0.Cancelar");
         Scanner comando = new Scanner(System.in);
         int inimigo_selecionado = comando.nextInt();
         if (inimigo_selecionado == 0){
-            //cancelando ataque
+            System.out.println("Cancelando...");
             return 0;
         }
 
         //casos invalidos (inimigo negativo ou maior que vetor)
         if (inimigo_selecionado < 1 || inimigo_selecionado > quantidade_inimigos){
-            //imprime inimigo invalido
+            System.out.println("Inimigo invalido!");
             return 0;
         }
         
@@ -199,8 +214,10 @@ public class Turno {
 
         //ve se mudou de posição, retorna 0 se não mudou
         int mudou_pos = p.definePosicao(d, p.getPosicao(), s);
-        if (mudou_pos == 0)
+        if (mudou_pos == 0){
+            System.out.println("Parede");
             return 0;
+        }
 
         //pega setor novo
         //para inicializar os inimigos, e marcar que já foi visitado para não reiniciar inimigos
@@ -228,8 +245,11 @@ public class Turno {
         int posX = pos[1];
         Setor s = m.getSetordoMapa(posY, posX);
 
-        if (!ofensivo.getVivo() || !defensivo.getVivo())
+        if (!ofensivo.getVivo() || !defensivo.getVivo()){
+            if (ofensivo instanceof Player)
+                System.out.println("Inimigo morto");
             return 0;
+        }
 
         //faz o ataque
         //se for virus 50% de chance de acertar
@@ -238,7 +258,11 @@ public class Turno {
         if (ofensivo instanceof Virus){
             boolean acertou = erraOuAcerta();
             if(acertou){
+                System.out.println("Inimigo acerta o ataque");
                 defensivo.setDEF(defesa_final);
+            }
+            else{
+                System.out.println("Inimigo erra o ataque");
             }
             return 1;
         }
@@ -246,11 +270,16 @@ public class Turno {
         else if (ofensivo instanceof Player){
             if(s instanceof Oculto){
                 boolean acertou = erraOuAcerta();
-                if (acertou)
+                if (acertou){
                     defensivo.setDEF(defesa_final);
+                    System.out.println("Player realiza ataque");
+                }
+                else
+                    System.out.println("Player erra o ataque");
             }
             else{
                 defensivo.setDEF(defesa_final);
+                System.out.println("Player realiza ataque");
             }
             return 1;
         }
@@ -269,12 +298,12 @@ public class Turno {
         //faz procura retorna -1 caso privado ou já procurado
         int valorDaProcura = s.fazProcura();
         if (valorDaProcura == -1){
-            //print que procura nao pode ser feita (nao da pra saber se é privado ou ja foi procurado)
+            System.out.println("Procura indisponivel no setor");
             return 0;
         }
 
         if (valorDaProcura < 4){
-            //print que nada foi encontrado
+            System.out.println("Nada encontrado");
         }
         else if (valorDaProcura == 4){
             //print ganhou 1 de defesa! (especificar player?)
@@ -285,7 +314,7 @@ public class Turno {
             p.setDEF(p.getDEF() + 2);
         }
         else if (valorDaProcura == 6){
-            //print inimigos do setor peredem 1 de defesa! (mensagem de dano causado? defesa resultante sla)
+            System.out.println("Inimigos no setor perdem 1 de vida");
             Personagem[] inimigos = s.getInimigos();
             int num_inimigos = s.getNumInimigos();
             int i;
@@ -307,6 +336,11 @@ public class Turno {
         else
             return true;
     }
+
+    public int decidePlayer(){
+        int zeroOuUm = ThreadLocalRandom.current().nextInt(0, 2);
+        return zeroOuUm;
+    }
 }
 
 //o que fazer 1:
@@ -321,7 +355,7 @@ public class Turno {
 //INSTANCEOF FAZ A CHECAGEM DE SUPERCLASSE PARA SUBLCASSE (VE SE O PERSONAGEM É VIRUS OU PLAYER) ||boa!
 
 //o que fazer 2:
-//loop ação
+//loop ação ||feito? decidir quando atualiza e prints
 //impreções nas áreas que pedem impreção
 //leak da entrada. da pra fazer so uma e ficar mandando ela para funções diferentes
 //ver questão do retorno na procura (seria interessante separar caso já procurado e caso privado, talvez -1 e 0)
