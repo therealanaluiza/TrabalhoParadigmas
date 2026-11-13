@@ -285,6 +285,7 @@ public class Turno {
 //ver questão do retorno na procura (seria interessante separar caso já procurado e caso privado, talvez -1 e 0)
 //ver se os inimigos vão ser decididos pelo método inicializaPersonagem em vírus ou pelo método inicializaSetor em setor
 //ALTEREI O setDef() para não reduzir a negativos e matar caso chegar a zero, dai não precisa fazer isso no ataque
+//o define posição ta considerando que porta vai ser 0 no vetor e parede 1, ta correto?
 
 //loop define tipo setor
 
