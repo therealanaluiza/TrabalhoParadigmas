@@ -32,6 +32,11 @@ public class Turno {
         if (!p1.getVivo())
             return 1;
 
+        /*
+        while (acao_feita < 2)
+            acao_feita = acao_feita + decideAcao(p1, m);
+        */
+
         //acao 1 p1
         while(acao_feita == 0){
             acao_feita = decideAcao(p1, m);
@@ -60,6 +65,20 @@ public class Turno {
         acao_feita = 0;
         }
 
+        ArrayList<Virus> listaInimigos = new ArrayList<Virus>();
+        int[] posP1 = p1.getPosicao();
+        int[] posP2 = p2.getPosicao();
+        
+        boolean mesmaPosicao = Arrays.equals(posP1, posP2);
+
+        if (mesmaPosicao){
+            Setor s = m.getSetordoMapa(posP1[0], posP1[1]);
+
+            for(int i = 0; i < s.getNumInimigos(); i++)
+                listaInimigos.add((Virus) s.getInimigos()[i]);
+
+        }
+        
         //se p1 junto com p2
         //pega inimigos
         //se separados
