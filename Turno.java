@@ -20,22 +20,44 @@ public class Turno {
     }
     */
    
-    /*
+    //atualizar saida inteira toda ação de player?
+    //fazer que retorno de decideAcao dependa da acao escolhida, e dai so atualizar 1 parte da saida?
+    //1 é movimento : atualiza mapa e sala com os virus aparecendo
+    //2 é ataque : atualiza só a sala (vida dos inimigos pode que mudar)
+    //3 é procura : atualiza só a sala (vida do player e inimigos pode mudar
+    //atualizar saida quando 1 virus ataca ou depois de todos atacarem?
     public int realizaTurno(Player p1, Player p2, Mapa m){
-        boolean acao;
+        int acao_feita = 0;
+
         if (!p1.getVivo())
             return 1;
-        while(!decideAcao(p1, m)){
 
+        //acao 1 p1
+        while(acao_feita == 0){
+            acao_feita = decideAcao(p1, m);
         }
-        while(!decideAcao(p1, m)){
 
+        acao_feita = 0;
+        //acao 2 p1
+        while(acao_feita == 0){
+            acao_feita = decideAcao(p1, m);
         }
-        while(!decideAcao(p2, m)){
 
-        }
-        while(!decideAcao(p2, m)){
+        acao_feita = 0;
+        if (p2.getVivo()){
 
+            //acao 1 p2
+            while(acao_feita == 0){
+                acao_feita = decideAcao(p2, m);
+            }
+
+            acao_feita = 0;
+            //acao 2 p2
+            while(acao_feita == 0){
+                acao_feita = decideAcao(p2, m);
+            }
+
+        acao_feita = 0;
         }
 
         //se p1 junto com p2
@@ -43,9 +65,11 @@ public class Turno {
         //se separados
         //pega inimigos 1 e inmigos 2
         //turnos inimigos
+        //se juntos toda moeda e pega aleatório
+        //se separados ataca oq ta la
         return 0;
     }
-    */
+    
 
 
     public int decideAcao(Player p, Mapa m){
@@ -96,12 +120,6 @@ public class Turno {
     }
     
     //prepara o ataque!
-    //pega o vetor dos inimigos do setor que o player ta e a quantidade
-    //imprime os vivos como opção de ataque (imagino que vamos imprimir os mortos tmb)
-    //pega o inimigo selecionado (vai ser numero)
-    //0 vai cancelar
-    //se selecionar algo menor que -1 (0 já vai ter passado pelo if) ou mais que a quantidade é invalido
-    //tenta realizar ataque contra inimigo selecionado (pode ser que seja morto)
     //retorna 1 se não selecionou morto 0 se selecionou morto
     public int preparaAtaque(Player p, Mapa m){
         //pega setor do player
@@ -116,7 +134,7 @@ public class Turno {
         int i;
         int conseguiu_atacar;
 
-        //imprime os vivos
+        //imprime os vivos como opção de ataque
         for(i = 0; i < quantidade_inimigos; i++){
             if(inimigos[i].getVivo())
                 //imprime: (i + 1). atacar inimigo i + 1
@@ -124,6 +142,7 @@ public class Turno {
         }
 
         //imprime: 0.cancelar
+        //0 cancela
         Scanner comando = new Scanner(System.in);
         int inimigo_selecionado = comando.nextInt();
         if (inimigo_selecionado == 0){
@@ -131,6 +150,7 @@ public class Turno {
             return 0;
         }
 
+        //casos invalidos (inimigo negativo ou maior que vetor)
         if (inimigo_selecionado < 1 || inimigo_selecionado > quantidade_inimigos){
             //imprime inimigo invalido
             return 0;
@@ -176,6 +196,7 @@ public class Turno {
 
     //retorna 1 se ataque foi bem sucedido (ou errou por chance, virus ou jogador)
     //retorna 0 se selecionou alguém morto ou caso nenhum outro return aconteceu (como isso aconteceria???)
+    //mensagem de acerto? mostrar dano dado e vida resultante do defensor?
     public int realizaAtaque(Personagem ofensivo, Personagem defensivo, Mapa m){
         //calcula dano
         int dano = ofensivo.getATK();
@@ -228,22 +249,24 @@ public class Turno {
 
         //faz procura retorna -1 caso privado ou já procurado
         int valorDaProcura = s.fazProcura();
-        if (valorDaProcura == -1)
+        if (valorDaProcura == -1){
+            //print que procura nao pode ser feita (nao da pra saber se é privado ou ja foi procurado)
             return 0;
+        }
 
         if (valorDaProcura < 4){
             //print que nada foi encontrado
         }
         else if (valorDaProcura == 4){
-            //print ganhou 1 de defesa!
+            //print ganhou 1 de defesa! (especificar player?)
             p.setDEF(p.getDEF() + 1);
         }
         else if (valorDaProcura == 5){
-            //print ganhou 2 de defesa!
+            //print ganhou 2 de defesa! (especificar player?)
             p.setDEF(p.getDEF() + 2);
         }
         else if (valorDaProcura == 6){
-            //print inimigos do setor peredem 1 de defesa!
+            //print inimigos do setor peredem 1 de defesa! (mensagem de dano causado? defesa resultante sla)
             Personagem[] inimigos = s.getInimigos();
             int num_inimigos = s.getNumInimigos();
             int i;
