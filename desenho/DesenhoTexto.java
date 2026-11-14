@@ -1,6 +1,7 @@
 package desenho;
 
 import personagem.player.Player;
+import setor.Setor;
 
 public class DesenhoTexto implements Desenho {
 
@@ -34,5 +35,5 @@ public class DesenhoTexto implements Desenho {
     }
 
     @Override
-    public void desenhaMapa(Player player1, Player player2) {}
+    public void desenhaMapa(Player player1, Player player2, Setor[][] setores) {}
 }
