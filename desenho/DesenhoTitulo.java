@@ -12,5 +12,5 @@ public class DesenhoTitulo implements Desenho {
     }
 
     @Override
-    public void desenhaMapa(Player player1, Player player2) {}
+    public void desenhaMapa(Player player1, Player player2, Setor[][] setores) {}
 }
