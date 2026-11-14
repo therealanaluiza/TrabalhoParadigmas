@@ -52,7 +52,7 @@ public class Virus implements Personagem {
         // uso de random de acordo com a biblioteca e enunciado
         Random aleatorio = new Random();
         int num;
-        num = aleatorio.nextInt(3);
+        num = aleatorio.nextInt(3) + 1;
 
         // exemplo: [2,2] porque foi o pedido pelo enunciado
         atk = num;
