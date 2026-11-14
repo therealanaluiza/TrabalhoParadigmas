@@ -1,7 +1,14 @@
+// NOMES E GRR:
+// 1.
+// 2.
+// 3.
+
+
 import desenho.*;
 import java.util.*;
 import personagem.Virus;
 import personagem.player.*;
+import setor.Setor;  
 
 // aqui está atualizando o player 1 e 2 quando se mexe
 // a mudança disso tem que vir de turno que vai mudando o pessoal que aparece
@@ -9,7 +16,7 @@ import personagem.player.*;
 public class Jogo {
 
     // char = comandos
-    public void main () {
+    public static void main (String[] args) {  
         // vai receber uma letra do teclado do usuario
         // vai fazer uma acao
 
@@ -27,8 +34,10 @@ public class Jogo {
         player1 = new Player1();
         player2 = new Player2();
 
-        player1.inicializaPersonagem("Player 1", new int[2]);
-        player2.inicializaPersonagem("Player 2", new int[2]);
+        player1.inicializaPersonagem("Player 1", new int[]{3, 3}); 
+        player2.inicializaPersonagem("Player 2", new int[]{3, 3});   
+
+        Mapa tabuleiro = new Mapa(); // cria os 25 setores
     
         // imprime o inicio
         titulo.desenhar(0);
@@ -67,17 +76,39 @@ public class Jogo {
                 break;
             }
 
+            // setor onde o jogador está
+            int[] posicao_atual;
             if (turno == 1) {
-                player1.definePosicao(comando, player1.getPosicao(), setor_atual);
-            } else if (turno == 2) {
-                player2.definePosicao(comando, player2.getPosicao(), setor_atual);
+                posicao_atual = player1.getPosicao();
+            } else {
+                posicao_atual = player2.getPosicao();
+            }
+            Setor setor_atual = tabuleiro.getSetordoMapa(posicao_atual[0], posicao_atual[1]);
+
+            //definePosicao recebe o setor e devolve 1 se tem porta para se mover ou 0 (parede)
+
+            int moveu;
+            if (turno == 1) {
+                moveu = player1.definePosicao(comando, player1.getPosicao(), setor_atual);
+            } else {
+                moveu = player2.definePosicao(comando, player2.getPosicao(), setor_atual);
             }
 
-            //System.out.println(Arrays.toString(player1.getPosicao()));
-            //System.out.println(Arrays.toString(player2.getPosicao()));
+            // se moveu, gera os virus do setor novo na primeira visita
+            if (moveu == 1) {
+                int[] nova_posicao;
+                if (turno == 1) {
+                    nova_posicao = player1.getPosicao();
+                } else {
+                    nova_posicao = player2.getPosicao();
+                }
+                tabuleiro.getSetordoMapa(nova_posicao[0], nova_posicao[1]).inicializaSetor();
+            } else {
+                System.out.println("Nao ha porta nessa direcao.");
+            }
 
             titulo.desenhar(0);
-            mapa.desenhaMapa(player1, player2, tabuleiro.getSetores());
+            mapa.desenhaMapa(player1, player2, tabuleiro.getSetores()); //recebe os setores
 
             if (turno == 1) {
                 turno ++;
