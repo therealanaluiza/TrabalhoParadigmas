@@ -77,7 +77,7 @@ public class Jogo {
             //System.out.println(Arrays.toString(player2.getPosicao()));
 
             titulo.desenhar(0);
-            mapa.desenhaMapa(player1, player2);
+            mapa.desenhaMapa(player1, player2, tabuleiro.getSetores());
 
             if (turno == 1) {
                 turno ++;
