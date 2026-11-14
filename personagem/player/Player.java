@@ -86,23 +86,21 @@ public abstract class Player implements Personagem {
         return 1;
     }*/
 
-     public int definePosicao (char comando, int[] posicao_atual, Setor s) {
-        int[] portas = s.getLados();
 
-        if (comando == 'w' && portas[0] == 0) {
-            posicao_atual[1] = posicao_atual[1] - 1;
-            return 1;
-        } else if (comando == 's' && portas[1] == 0) {
-            posicao_atual[1] = posicao_atual[1] + 1;
-            return 1;
-        } else if (comando == 'a' && portas[2] == 0) {
-            posicao_atual[0] = posicao_atual[0] - 1;
-            return 1;
-        } else if (comando == 'd' && portas[3] == 0) {
-            posicao_atual[0] = posicao_atual[0] + 1;
-            return 1;
-        }
-    
-        return 0;
+    public int definePosicao (char comando, int[] posicao_atual, Setor s) {
+    if (comando == 'w' && s.temPorta(0)) {
+        posicao_atual[1] = posicao_atual[1] - 1;
+        return 1;
+    } else if (comando == 'd' && s.temPorta(1)) {
+        posicao_atual[0] = posicao_atual[0] + 1;
+        return 1;
+    } else if (comando == 's' && s.temPorta(2)) {
+        posicao_atual[1] = posicao_atual[1] + 1;
+        return 1;
+    } else if (comando == 'a' && s.temPorta(3)) {
+        posicao_atual[0] = posicao_atual[0] - 1;
+        return 1;
     }
+    return 0;
 }
+    
