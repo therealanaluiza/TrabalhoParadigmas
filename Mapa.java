@@ -43,12 +43,13 @@ public class Mapa {
     // sorteia um setor que nao seja o centro e que tenha pelo menos uma porta
     public void defineFonteVirus() {
         Random aleatorio = new Random();
-        int coluna, linha;
-        boolean valido;
-        do {
+        int coluna = 0, linha = 0;
+        boolean valido = false;
+    
+        while (valido == false) {
             coluna = aleatorio.nextInt(maximos[0]) + 1;
             linha = aleatorio.nextInt(maximos[1]) + 1;
-
+    
             boolean eh_centro = (coluna == inicio[0] && linha == inicio[1]);
             boolean tem_porta = false;
             for (int lado : getSetordoMapa(coluna, linha).getLados()) {
@@ -57,8 +58,8 @@ public class Mapa {
                 }
             }
             valido = !eh_centro && tem_porta;
-        } while (!valido);
-
+        }
+    
         fonteVirus[0] = coluna;
         fonteVirus[1] = linha;
     }
