@@ -52,8 +52,10 @@ public class Mapa {
     
             boolean eh_centro = (coluna == inicio[0] && linha == inicio[1]);
             boolean tem_porta = false;
-            for (int lado : getSetordoMapa(coluna, linha).getLados()) {
-                if (lado == 1) {
+            int[] lados = getSetordoMapa(coluna, linha).getLados();
+
+            for (int i = 0; i < 4; i++) {
+                if (lados[i] == 1) {
                     tem_porta = true;
                 }
             }
