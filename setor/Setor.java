@@ -12,40 +12,25 @@ public abstract class Setor {
     protected boolean procurado;
     protected boolean visitado;
 
-    // Porta fixa: {emcima, direita, embaixo, esquerda}: 1 = porta, 0 = parede
-    private static final int[][][] PORTAS = {
-        { {0,1,1,0}, {0,1,0,1}, {0,1,0,1}, {0,0,1,1}, {0,0,0,0} },   
-        { {1,0,1,0}, {0,1,0,0}, {0,0,1,1}, {1,1,0,0}, {0,0,1,1} },   
-        { {1,1,0,0}, {0,1,1,1}, {1,1,1,1}, {0,0,0,1}, {1,0,1,0} },   
-        { {0,0,0,0}, {1,0,0,0}, {1,0,1,0}, {0,1,1,0}, {1,0,1,1} },   
-        { {0,0,0,0}, {0,0,0,0}, {1,1,0,0}, {1,1,0,1}, {1,0,0,1} }   
-    };
-
     public Setor (){}
 
-    public Setor(int[] posicao, int[] lados, int numInimigos) {
+    public Setor(int[] posicao, int[] lados) {
         this.posicao = posicao;
         this.lados = lados;
-        this.numInimigos= numInimigos;
         this.procurado = false;
         this.visitado = false;
         
     }
     // Métodos
-    public static Setor defineTipoSetor(String tipo, int[] posicao, int[] lados, int numInimigos) {
+    public static Setor defineTipoSetor(String tipo, int[] posicao, int[] lados) {
         switch (tipo) {
             case "Oculto":  
-                return new Oculto(posicao, lados, numInimigos);
+                return new Oculto(posicao, lados);
             case "Privado": 
-                return new Privado(posicao, lados, numInimigos);
+                return new Privado(posicao, lados);
             default:        
-                return new Normal(posicao, lados, numInimigos);
+                return new Normal(posicao, lados);
         }
-    }
-
-    // retorna os 4 lados(0-4) do setor.
-    public static int[] defineLados(int coluna, int linha) {
-        return PORTAS[linha - 1][coluna - 1];
     }
 
     public int fazProcura (){

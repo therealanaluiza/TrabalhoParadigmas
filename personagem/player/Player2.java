@@ -12,9 +12,9 @@ public class Player2 extends Player{
 
     @Override
     public void inicializaPersonagem(String nome, int[] posicao_necessaria) {        
-        // [3,3] eh o inicio
-        posicao_necessaria[0] = 3;
-        posicao_necessaria[1] = 3;
+        // [2,2] eh o inicio
+        posicao_necessaria[0] = 2;
+        posicao_necessaria[1] = 2;
         vivo = true;
 
         posicao = posicao_necessaria;

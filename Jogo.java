@@ -1,26 +1,54 @@
 import desenho.*;
+import mapa.Mapa;
+import setor.*;
+
 import java.util.*;
-import personagem.Virus;
+import personagem.*;
 import personagem.player.*;
 
-// aqui está atualizando o player 1 e 2 quando se mexe
-// a mudança disso tem que vir de turno que vai mudando o pessoal que aparece
-// a mudança que vai de acordo com as portas deve vir de setor+turno
+//Grupo:
+//Analuiza Alves da Cruz ; GRR20254771
+//Angelo Nkialulendo Malungu ; GRR20209982
+//Pedro Henrique Dalazoana dos Passos; GRR20251993
+
 public class Jogo {
 
-    // char = comandos
-    public void main () {
-        // vai receber uma letra do teclado do usuario
-        // vai fazer uma acao
+    //constantes usadas
+    public static final String[] setoresNoMapa = {"Normal", "Oculto", "Privado", "Normal", "Normal",
+                                                "Oculto", "Oculto", "Normal", "Privado", "Oculto",
+                                                "Privado", "Normal", "Normal", "Oculto", "Normal",
+                                                "Normal", "Oculto", "Normal", "Privado", "Privado",
+                                                "Normal", "Normal", "Oculto", "Normal", "Privado"};
 
-        // inicio do jogo
-        // printar BEM VINDO E COMANDOS BÁSICOS
-         
-        Desenho titulo, texto, mapa;
+    public static final int[][][] portasNoMapa = {
+        { {0,1,1,0}, {0,1,0,1}, {0,1,0,1}, {0,0,1,1}, {0,0,0,0} },   
+        { {1,0,1,0}, {0,1,0,0}, {0,0,1,1}, {1,1,0,0}, {0,0,1,1} },   
+        { {1,1,0,0}, {0,1,1,1}, {1,1,1,1}, {0,0,0,1}, {1,0,1,0} },   
+        { {0,0,0,0}, {1,0,0,0}, {1,0,1,0}, {0,1,1,0}, {1,0,1,1} },   
+        { {0,0,0,0}, {0,0,0,0}, {1,1,0,0}, {1,1,0,1}, {1,0,0,1} }   
+        };
 
-        titulo = new DesenhoTitulo(); 
-        texto = new DesenhoTexto();
-        mapa = new DesenhoMapa();
+    public static final int[] inicio = {2, 2};
+
+    public static final int[] fim = {0, 3};
+
+    public static void main (String[] args) {
+
+        //declara variaveis usadas
+        Scanner comando = new Scanner(System.in);
+
+        boolean Jogando = false;
+        int turno = 1;
+    
+        Desenho tituloDesenho, textoDesenho;
+
+        DesenhoSetor setorDesenho = new DesenhoSetor();
+        DesenhoMapa mapaDesenho = new DesenhoMapa();
+
+        tituloDesenho = new DesenhoTitulo(); 
+        textoDesenho = new DesenhoTexto();
+        mapaDesenho = new DesenhoMapa();
+        setorDesenho = new DesenhoSetor();
 
         // inicializa players no jogo
         Player player1, player2;
@@ -29,63 +57,71 @@ public class Jogo {
 
         player1.inicializaPersonagem("Player 1", new int[2]);
         player2.inicializaPersonagem("Player 2", new int[2]);
-    
-        // imprime o inicio
-        titulo.desenhar(0);
-        texto.desenhar(2);
 
-        // parametros que indicam se o jogo comeca/continua ou nao
-        boolean jogo_continua = false;
-        int turno = 1;
+
+        //declara e inicializa mapa
+        Mapa mapa;
+        mapa = new Mapa(5, 5);
         
-        // vamos ver se comeca mesmo
-        Scanner entrada = new Scanner(System.in);
-        char comando = entrada.next().charAt(0);
-
-        // começar o jogo
-        if (comando == 'c') {
-            jogo_continua = true;
-            turno = 1;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                mapa.setSetordoMapa(setoresNoMapa[i*5+j], new int[]{i, j}, portasNoMapa[i][j]);
+            }
         }
 
-        // parametrizando para teste
-        int[] pos = new int[2];
-        pos[0] = 1;
-        pos[1] = 2;
-        Virus virus1;
-        virus1 = new Virus();
-        virus1.inicializaPersonagem("Vírus 1", pos);
+        mapa.setInicio(inicio);
+        mapa.setFonteVirus(fim);
 
-        int numTurnos = 1;
 
-        while (jogo_continua == true && numTurnos < 26) {
-            System.out.print("Digite o movimento: ");
-            comando = entrada.next().charAt(0);
+        //mensagem inicial
+        tituloDesenho.desenhar(0);
+        textoDesenho.desenhar(2);
 
-            if (comando == '0') {
-                jogo_continua = false;
-                break;
+        char entrada = comando.next().charAt(0);
+            if (entrada == 'c') {
+                Jogando = true;
+            }
+            else{
+                System.out.println("Saindo do jogo...");
+                return;
             }
 
-            if (turno == 1) {
-                player1.definePosicao(comando, player1.getPosicao(), setor_atual);
-            } else if (turno == 2) {
-                player2.definePosicao(comando, player2.getPosicao(), setor_atual);
+        //inicia turno
+        Turno t = new Turno();
+        int situacao = 0;
+        
+        //loop do jogo
+        while(Jogando && turno <= 25){
+            System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println("Turno: " + turno);
+            mapaDesenho.desenhaMapa(player1, player2, mapa);
+            setorDesenho.desenharSetor(player1, player2, mapa);
+
+            //chama funcao principal que realiza as acoes dos jogadores e inimigos.
+            //0 continua, 1 game over (p1 morto), 2 vitoria (chegou na fonte do virus)
+            situacao = t.realizaTurno(player1, player2, mapa, comando, mapaDesenho, setorDesenho);
+
+            if (situacao == 1){
+                Jogando = false;
             }
-
-            //System.out.println(Arrays.toString(player1.getPosicao()));
-            //System.out.println(Arrays.toString(player2.getPosicao()));
-
-            titulo.desenhar(0);
-            mapa.desenhaMapa(player1, player2);
-
-            if (turno == 1) {
-                turno ++;
-            } else {
-                turno = 1;
+            else if (situacao == 2){
+                Jogando = false;
             }
-            numTurnos ++;
-      }
-      texto.desenhar(3);
+            turno ++;
+        }
+
+        if (turno > 25){
+            System.out.println("O jogo acabou. Ninguém chegou na fonte do vírus...");
+        }
+        else if(situacao == 1){
+            System.out.println("Game over. Player 1 Morto...");
+        }
+        else if(situacao == 2){
+            System.out.println("Vitoria! Chegaram na fonte do virus!");
+        }
+        textoDesenho.desenhar(3);
+
+        comando.close();
+        return;
     }
 }

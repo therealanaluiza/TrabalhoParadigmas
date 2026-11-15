@@ -1,4 +1,5 @@
 package desenho;
+import mapa.Mapa;
 import personagem.player.Player;
 
 public class DesenhoMapa implements Desenho {
@@ -14,18 +15,22 @@ public class DesenhoMapa implements Desenho {
     }
     
     @Override
-    public void desenhaMapa(Player player1, Player player2) {        
+    
+    public void desenhaMapa(Player player1, Player player2, Mapa m) {        
         int[] posicao1;
         int[] posicao2;
+        int[] posFim = m.getFonteVirus().clone();
+        int[] posInicio = m.getInicio().clone();
+
         
         int linha = 0;
         //int coluna = 1;
 
         // faz linha - vazio
-        for (int j = 1; j <= 5; j++) {
-            for (int i = 1; i <= 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < 5; i++) {
                 System.out.print(vertical);
-                for (int k = 1; k <= 3; k++) {
+                for (int k = 0; k < 3; k++) {
                     System.out.print(horizontal);
                 }
             }
@@ -34,11 +39,11 @@ public class DesenhoMapa implements Desenho {
 
             // pula linha
             System.out.println();
-            linha ++;
+            
 
             // aqueles vazios para fazer os quadrados maiores
             // e colocar os players
-            for (int l = 1; l <= 5; l++) {
+            for (int l = 0; l < 5; l++) {
                 // pega as posicoes atualizadas dos players
                 posicao1 = player1.getPosicao();
                 posicao2 = player2.getPosicao();
@@ -47,25 +52,28 @@ public class DesenhoMapa implements Desenho {
 
                 // se p1 e p2 estarem no mesmo lugar, aparece apenas p1 no mapa
                 // isso eh baseado no enunciado
-                if (l == 3 && linha == 3) {
+                if (l == posInicio[1] && linha == posInicio[0]) {
                     System.out.print(" C ");
-                } else if (posicao1[0] == l && posicao1[1] == linha) {
+                }else if(l == posFim[1] && linha == posFim[0]){
+                    System.out.print(" F ");
+                } else if (posicao1[1] == l && posicao1[0] == linha) {
                     System.out.print("P1 ");
-                } else if (posicao2[0] == l && posicao2[1] == linha) {
+                } else if (posicao2[1] == l && posicao2[0] == linha) {
                     System.out.print("P2 ");
                 } else {
                     System.out.print("   ");
                 } 
             }
+            linha ++;
             
             // faz a ultima barra da linha
             System.out.println(vertical);
         }
         
         // faz ultima linha
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 0; i < 5; i++) {
             System.out.print('|');
-            for (int k = 1; k <= 3; k++) {
+            for (int k = 0; k < 3; k++) {
                 System.out.print(horizontal);
             }
         }
@@ -78,5 +86,9 @@ public class DesenhoMapa implements Desenho {
 
     @Override 
     public void desenhar (int situacao) {}
+
+     @Override
+    public void desenharSetor(Player p1, Player p2, Mapa m){}
+
 }
 

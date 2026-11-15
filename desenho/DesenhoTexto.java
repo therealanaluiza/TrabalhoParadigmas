@@ -1,5 +1,6 @@
 package desenho;
 
+import mapa.Mapa;
 import personagem.player.Player;
 
 public class DesenhoTexto implements Desenho {
@@ -15,12 +16,6 @@ public class DesenhoTexto implements Desenho {
     public void desenhar (int situacao) {
         if (situacao == 2) {
             System.out.println("          Bem-vindo!          ");
-            System.out.println("       Os comandos são:       ");
-            System.out.println("       |a - esquerda  |       ");
-            System.out.println("       |w - para cima |       ");
-            System.out.println("       |s - para baixo|       ");
-            System.out.println("       |d - direita   |       ");
-            System.out.println("       |r - ataque    |       ");
             System.out.println("   Pressione 'c' para começar   ");
         } else if (situacao == 3) {
             System.out.println();
@@ -34,5 +29,8 @@ public class DesenhoTexto implements Desenho {
     }
 
     @Override
-    public void desenhaMapa(Player player1, Player player2) {}
+    public void desenhaMapa(Player player1, Player player2, Mapa m) {}
+
+     @Override
+    public void desenharSetor(Player p1, Player p2, Mapa m){}
 }

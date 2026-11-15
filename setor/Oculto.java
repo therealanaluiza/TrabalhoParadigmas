@@ -5,8 +5,8 @@ public class Oculto extends Setor {
     private int maxDado = 6;
     private Random aleatorio = new Random();
 
-    public Oculto(int[] posicao, int[] lados, int numInimigos) {
-        super(posicao, lados, numInimigos);
+    public Oculto(int[] posicao, int[] lados) {
+        super(posicao, lados);
     }
 
     // faz o sorteio de 1 a 6. No ataque: par acerta, ímpar erra (50%).

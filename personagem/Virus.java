@@ -30,7 +30,13 @@ public class Virus implements Personagem {
     }
     @Override
     public void setDEF(int def) {
-        this.def = def;
+        if(def < 1){
+            this.def = 0;
+            this.vivo = false;
+        }
+        else{
+            this.def = def;
+        }
     }
 
     // --------------------- metodos ---------------------
@@ -46,7 +52,7 @@ public class Virus implements Personagem {
         // uso de random de acordo com a biblioteca e enunciado
         Random aleatorio = new Random();
         int num;
-        num = aleatorio.nextInt(3);
+        num = aleatorio.nextInt(3) + 1;
 
         // exemplo: [2,2] porque foi o pedido pelo enunciado
         atk = num;

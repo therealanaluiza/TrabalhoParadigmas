@@ -1,5 +1,6 @@
 package desenho;
 import personagem.player.Player;
+import mapa.Mapa;
 
 public interface Desenho {
     void desenhar(int situacao);
@@ -10,5 +11,7 @@ public interface Desenho {
     // 3 - texto.fim
     // 4 -
 
-    void desenhaMapa(Player player1, Player player2);
+    void desenhaMapa(Player player1, Player player2, Mapa m);
+
+    void desenharSetor(Player p1, Player p2, Mapa m);
 }

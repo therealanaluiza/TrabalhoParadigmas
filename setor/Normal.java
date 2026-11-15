@@ -3,8 +3,8 @@ import java.util.Random;
 
 public class Normal extends Setor {
 
-    public Normal (int[] posicao, int[] lados, int numInimigos){
-        super (posicao, lados, numInimigos);
+    public Normal (int[] posicao, int[] lados){
+        super (posicao, lados);
     }
 
     private Random aleatorio = new Random();
