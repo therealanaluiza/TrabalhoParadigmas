@@ -14,8 +14,6 @@ public class Mapa {
     
     public void setFonteVirus(int[] fim){
         this.fonteVirus = fim;
-        if (setores[inicio[0]][inicio[1]] != null)
-             setores[inicio[0]][inicio[1]].setVisitado(true);
     }
     
     public int[] getFonteVirus(){
@@ -37,6 +35,6 @@ public class Mapa {
     }
 
     public void setSetordoMapa(String tipo, int[] pos, int[] portas) {
-        this.setores[pos[0]][pos[1]] = Setor.defineTipoSetor(tipo, pos, portas);
+        this.setores[pos[0]][pos[1]] = Setor.defineTipoSetor(tipo, pos, portas, 0);
     }
 }
